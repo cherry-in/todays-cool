@@ -1,0 +1,27 @@
+{
+  "name": "todays-cool",
+  "version": "1.0.0",
+  "description": "KU 일정관리 앱",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cherry-in/todays-cool.git"
+  },
+  "keywords": [
+    "일정관리",
+    "학업스케쥴",
+    "학사일정"
+  ],
+  "author": "김채린",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cherry-in/todays-cool/issues"
+  },
+  "homepage": "https://github.com/cherry-in/todays-cool#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
