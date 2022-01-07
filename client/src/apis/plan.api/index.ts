@@ -1,13 +1,13 @@
 import axios from "axios";
 import baseUrl from "../../utils/baseUrl";
 
-const getDetail = async (planId) => {
+const getDetail = async (planId:string) => {
   const url = `${baseUrl}/api/plan/${planId}`
   const { data } = await axios.get(url)
   return data
 }
 
-const saveCheck = async (planId, planCk) => {
+const saveCheck = async (planId:string, planCk:boolean) => {
   const url = `${baseUrl}/api/plan/check/${planId}`
   const { data } = await axios.put(url, {planCk})
   return data
