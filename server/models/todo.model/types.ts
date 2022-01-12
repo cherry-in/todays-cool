@@ -4,10 +4,13 @@ interface TodoAttributes {
     id: number;
     title: string;
     date: Date;
-    done: boolean;
+    done?: boolean;
+    userId:number;
 }
 
 interface TodoCreationAttributes extends Optional<TodoAttributes, "id"> { }
 
 export interface TodoInterface extends Model<TodoAttributes, TodoCreationAttributes>,
-    TodoAttributes { }
+    TodoAttributes {
+  dataValues: TodoInterface;
+}

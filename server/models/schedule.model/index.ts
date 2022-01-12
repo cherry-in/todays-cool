@@ -1,8 +1,8 @@
-import {DataTypes, Sequelize} from "sequelize";
+import { DataTypes, Sequelize } from "sequelize";
 import { ScheduleInterface } from "./types";
 
-const ScheduleModel = (sequelize:Sequelize) => {
-    const Schedule =  sequelize.define<ScheduleInterface>(
+const ScheduleModel = (sequelize: Sequelize) => {
+    const Schedule = sequelize.define<ScheduleInterface>(
         "schedule",
         {
             id: {
@@ -25,12 +25,15 @@ const ScheduleModel = (sequelize:Sequelize) => {
                 type: DataTypes.BOOLEAN,
             },
             location: {
-                type:DataTypes.STRING,
+                type: DataTypes.STRING,
                 defaultValue: ""
             },
             memo: {
                 type: DataTypes.TEXT,
                 defaultValue: ""
+            },
+            userId: {
+                type: DataTypes.NUMBER
             }
         },
         {

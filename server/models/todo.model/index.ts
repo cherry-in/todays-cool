@@ -19,6 +19,9 @@ const TodoModel = (sequelize:Sequelize) => {
       done: {
         type: DataTypes.BOOLEAN,
         defaultValue: false
+      },
+      userId: {
+        type:DataTypes.NUMBER
       }
     },
     {

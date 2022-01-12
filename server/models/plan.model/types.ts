@@ -6,7 +6,8 @@ interface PlanAttributes {
     deadline: Date;
     memo: string;
     timeChecked: boolean;
-    checked: boolean;
+    checked?: boolean;
+    subjectId: number;
 }
 
 interface PlanCreationAttributes extends Optional<PlanAttributes, "id"> { }

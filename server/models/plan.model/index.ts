@@ -29,6 +29,9 @@ const PlanModel = (sequelize:Sequelize) => {
       checked: {
         type: DataTypes.BOOLEAN,
         defaultValue: false
+      },
+      subjectId: {
+        type: DataTypes.NUMBER,
       }
     },
     {

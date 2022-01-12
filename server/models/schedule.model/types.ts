@@ -8,9 +8,12 @@ interface ScheduleAttributes {
     allDay:boolean;
     location:string;
     memo: string;
+    userId: number;
 }
 
 interface ScheduleCreationAttributes extends Optional<ScheduleAttributes, "id"> { }
 
 export interface ScheduleInterface extends Model<ScheduleAttributes, ScheduleCreationAttributes>,
-    ScheduleAttributes { }
+    ScheduleAttributes {
+    dataValues: any;
+}

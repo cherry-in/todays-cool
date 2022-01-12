@@ -11,4 +11,6 @@ interface KUAttributes {
 interface KUCreationAttributes extends Optional<KUAttributes, "id"> { }
 
 export interface KUInterface extends Model<KUAttributes, KUCreationAttributes>,
-    KUAttributes { }
+    KUAttributes {
+    dataValues: any;
+}
