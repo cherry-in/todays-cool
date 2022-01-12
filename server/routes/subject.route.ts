@@ -1,5 +1,5 @@
 import express from 'express';
-import subjectCtrl from '../controllers/subject.controller.js';
+import subjectCtrl from '../controllers/subject.controller';
 
 const router = express.Router();
 
