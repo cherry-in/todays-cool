@@ -1,11 +1,11 @@
 import { Sequelize } from "sequelize"
-import dbConfig from "../config/db.config.js"
-import UserModel from "../models/user.model.js";
-import KUModel from "../models/ku.model.js";
-import ScheduleModel from "../models/schedule.model.js";
-import TodoModel from "../models/todo.model.js";
-import SubjectModel from "../models/subject.model.js";
-import PlanModel from "../models/plan.model.js";
+import dbConfig from "../config/db.config"
+import UserModel from "../models/user.model";
+import KUModel from "../models/ku.model";
+import ScheduleModel from "../models/schedule.model";
+import TodoModel from "../models/todo.model";
+import SubjectModel from "../models/subject.model";
+import PlanModel from "../models/plan.model";
 
 const sequelize = new Sequelize(
     String(dbConfig.database),
