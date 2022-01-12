@@ -1,9 +1,8 @@
-import Sequelize from "sequelize";
+import {DataTypes, Sequelize} from "sequelize";
+import { SubjectInterface } from "./types";
 
-const { DataTypes } = Sequelize;
-
-const SubjectModel = (sequelize) => {
-  const Subject = sequelize.define(
+const SubjectModel = (sequelize:Sequelize) => {
+  const Subject = sequelize.define<SubjectInterface>(
     "subject",
     {
       id: {

@@ -1,9 +1,8 @@
-import Sequelize from "sequelize";
+import {DataTypes, Sequelize} from "sequelize";
+import { TodoInterface } from "./types";
 
-const { DataTypes } = Sequelize;
-
-const TodoModel = (sequelize) => {
-  const Todo = sequelize.define(
+const TodoModel = (sequelize:Sequelize) => {
+  const Todo = sequelize.define<TodoInterface>(
     "todo",
     {
       id: {
