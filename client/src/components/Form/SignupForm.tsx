@@ -6,6 +6,7 @@ import authApi from "../../apis/auth.api";
 import catchErrors from "../../utils/catchErrors";
 import styles from "./form.module.scss";
 
+
 const SignupForm = () => {
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
@@ -50,9 +51,7 @@ const SignupForm = () => {
         onSubmit={async (values, { setSubmitting, resetForm }) => {
           try {
             setError("");
-            const { userId, password, repassword, userName, userStudNum } =
-              values;
-            const result = await authApi.signup(userId, password, repassword, userName, userStudNum);
+            const result = await authApi.signup(values);
             if (result.status === 201) {
               alert("회원가입이 완료되었습니다.");
               setSuccess(true);
@@ -75,7 +74,6 @@ const SignupForm = () => {
               <div className="flex-col">
                 <input
                   type="text"
-                  name="userId"
                   className={`form-control shadow-none rounded-0 ${styles.textInput}`}
                   autoComplete="off"
                   {...formik.getFieldProps("userId")}
@@ -97,7 +95,6 @@ const SignupForm = () => {
               <div className="flex-col">
                 <input
                   type="password"
-                  name="password"
                   className={`form-control shadow-none rounded-0 ${styles.textInput}`}
                   {...formik.getFieldProps("password")}
                 />
@@ -121,7 +118,6 @@ const SignupForm = () => {
               <div className="flex-col">
                 <input
                   type="password"
-                  name="repassword"
                   className={`form-control shadow-none rounded-0 ${styles.textInput}`}
                   {...formik.getFieldProps("repassword")}
                 />
@@ -142,7 +138,6 @@ const SignupForm = () => {
               <div className="flex-col">
                 <input
                   type="text"
-                  name="userName"
                   className={`form-control shadow-none rounded-0 ${styles.textInput}`}
                   autoComplete="off"
                   {...formik.getFieldProps("userName")}
@@ -164,7 +159,6 @@ const SignupForm = () => {
               <div className="flex-col">
                 <input
                   type="text"
-                  name="userStudNum"
                   className={`form-control shadow-none rounded-0 ${styles.textInput}`}
                   autoComplete="off"
                   {...formik.getFieldProps("userStudNum")}

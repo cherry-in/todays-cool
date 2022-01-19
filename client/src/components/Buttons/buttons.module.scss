@@ -1,0 +1,70 @@
+.homeBtn {
+    top: 10px;
+    right: 10px;
+
+    &:hover {
+        & .icon {
+            color: #fff
+        }
+    }
+
+    & .icon {
+        color: crimson;
+    }
+}
+
+.icon {
+    color: crimson;
+    font-size: 2.7em;
+    cursor: pointer;
+}
+
+.backBtn {
+    top: 4px;
+    right: 10px;
+
+    & .icon {
+        font-size: 2.3em;
+    }
+
+    &:hover, &:visited {
+        background-color: #fff;
+
+        & .icon {
+            color: crimson;
+        }
+    }
+}
+
+.disabledBtn:disabled {
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+
+.calendar {
+    cursor: pointer;
+    font-size: 0.435em;
+    width: 7em;
+    height: 7.2em;
+    border-radius: 0.4em;
+    box-shadow: 0 1px 0 #bdbdbd, 0 2px 0 #fff, 0 3px 0 #bdbdbd, 0 4px 0 #fff, 0 5px 0 #bdbdbd, 0 0 0 1px #bdbdbd;
+    overflow: hidden;
+
+    & * {
+        display: block;
+        width: 100%;
+    }
+
+    & strong {
+        padding: 0.4em 0;
+        background-color: crimson;
+        box-shadow: 0 2px 0 crimson;
+    }
+
+    & span {
+        font-size: 3em;
+        letter-spacing: -0.05em;
+        padding-top: 1em;
+        font-family: "Plex-Medi";
+    }
+}

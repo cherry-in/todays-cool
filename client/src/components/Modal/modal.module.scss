@@ -1,0 +1,32 @@
+.header {
+    background-color: crimson;
+
+    & .closeBtn {
+        font-size: 1.2em;
+    }
+}
+
+.body {
+    height: 350px
+}
+
+.textInput {
+    border: none;
+    border-bottom: 1px solid #000;
+
+    &:focus {
+        border-color: crimson;
+    }
+}
+
+.dateInput {
+    font-size: 0.75rem;
+
+    &:focus {
+        border-color: crimson;
+    }
+}
+
+.cursor {
+    cursor: pointer;
+}

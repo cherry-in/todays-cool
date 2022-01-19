@@ -1,0 +1,78 @@
+.list {
+    height: 46vh;
+    overflow-y: auto;
+}
+
+.activeBtn {
+    & .title {
+        width: inherit;
+    }
+
+    &:focus {
+        border-color: black;
+    }
+
+    // 펼쳐졌을 때
+    &:not(.collapsed) {
+        color: black;
+        border-bottom: 1px solid #000000;
+
+        & .title {
+            white-space: normal;
+            word-break: break-all;
+        }
+
+        & .period {
+            display: block;
+        }
+
+        & .time {
+            display: none;
+        }
+    }
+
+    // 숨겨졌을 때
+    &[class~="collapsed"] {
+        border-bottom: 0;
+
+        & .title {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        & .period {
+            display: none;
+        }
+
+        & .time {
+            display: block;
+        }
+    }
+
+    &::after {
+        display: none;
+    }
+}
+
+.textBox {
+    white-space: pre-wrap;
+    word-break: break-all;
+    background-color: #fff5f7;
+}
+
+.header {
+    background-color: crimson;
+    & .ku_tiger {
+        width: 42px;
+        height: 30px;
+    }
+}
+
+.flowText {
+    font-family: "Plex-Bold";
+}
+
+.cursor {
+    cursor: pointer;
+}

@@ -1,0 +1,174 @@
+$crimson : #DC143C;
+
+@import "../../node_modules/bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins";
+
+$custom-colors: (
+    "crimson": $crimson
+);
+    
+$theme-colors: map-merge($theme-colors, $custom-colors);
+
+@import '~bootstrap/scss/bootstrap.scss';
+@import '~bootstrap-icons/font/bootstrap-icons'; 
+
+@font-face {
+    font-family: "Plex-Bold";
+    src: local('../fonts/IBMPlexSansKR-Bold.ttf');
+}
+
+@font-face {
+    font-family: "Plex-SemiBold";
+    src: local("../fonts/IBMPlexSansKR-SemiBold.ttf");
+}
+
+@font-face {
+    font-family: "Plex-Medi";
+    src: local("../fonts/IBMPlexSansKR-Medium.ttf");
+}
+
+@font-face {
+    font-family: "Plex-Reg";
+    src: local("../fonts/IBMPlexSansKR-Regular.ttf");
+}
+
+@font-face {
+    font-family: "Plex-Light";
+    src: local("../fonts/IBMPlexSansKR-Light.ttf");
+}
+
+@font-face {
+    font-family: "Plex-ExtraLight";
+    src: local("../fonts/IBMPlexSansKR-ExtraLight.ttf");
+}
+
+@font-face {
+    font-family: "Plex-Text";
+    src: local("../fonts/IBMPlexSansKR-Text.ttf");
+}
+
+h1, h2, h3, h4, h5, h6, label, select {
+    font-family: "Plex-Bold";
+}
+
+input, label, textarea, p {
+    font-family: "Plex-Text";
+}
+
+i {
+    font-style: normal;
+}
+
+button {
+    font-family: "Plex-Reg";
+}
+
+@include media-breakpoint-up(sm) {
+    #box {
+        width: 400px;
+    }
+}
+
+.fc {
+    padding-top: 1em;
+    
+    & a {
+        text-decoration: none;
+    }
+
+    & thead, tbody, tfoot, tr, td, th {
+        border-style: none;
+    }
+
+    & table {
+        & thead {
+            background-color: crimson;
+            color: #fff;
+        }
+    }
+
+    & .fc-header-toolbar {
+        margin-bottom: 1em !important;
+    }
+
+    & .fc-prev-button, & .fc-next-button {
+        background-color: #fff;
+        border: 0;
+        color: #000;
+
+        &:focus {
+            box-shadow: none;
+        }
+    }
+
+    & .fc-myCustomButton-button {
+        background-color: #fff;
+        border: 0;
+        color: #000;
+        font-size: 1.4em;
+        padding: 0;
+
+        &:focus {
+            box-shadow: none;
+        }
+    }
+
+    & .fc-daygrid-day-top {
+        flex-direction: row !important;
+
+        & .fc-daygrid-day-number {
+            cursor: pointer;
+        }
+    }
+
+    & .fc-day-today {
+        background-color: #fff !important;
+
+        & .fc-daygrid-day-number {
+            border-radius: 40px;
+            background-color: crimson;
+            color: #fff;
+            margin-top: 3px;
+        }
+    }
+
+    & .fc-day-other {
+        color: gray;
+    }
+
+    & td.fc-day-sat:not(.fc-day-other) {
+        color: #0000FF;
+    }
+
+    & td.fc-day-sun:not(.fc-day-other) {
+        color: #FF0000;
+    }
+
+    & .fc-more-popover {
+        display: none;
+    }
+
+    & .text {
+        font-family: "Plex-Text";
+
+        & .fc-event-title {
+            display: block;
+            text-overflow: ellipsis;
+            height: 15px;
+            padding: 0;
+        }
+    }
+
+    & .first {
+        border-color: #EE8DA0;
+        background-color: #EE8DA0;
+        color: #fff;
+    }
+
+    & .indi {
+        border-color: #81A2DB;
+        background-color: #81A2DB;
+        color: #fff;
+    }
+}

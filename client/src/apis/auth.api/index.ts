@@ -1,5 +1,6 @@
 import axios from "axios";
-import baseUrl from "../utils/baseUrl";
+import baseUrl from "../../utils/baseUrl";
+import { LoginFormInterface, SignupFormInterface } from "./types";
 
 const getUser = async () => {
     const url = `${baseUrl}/api/auth`
@@ -7,16 +8,14 @@ const getUser = async () => {
     return data
 }
 
-const signup = async (userId: string, password: string, repassword: string, userName: string, userStudNum: string) => {
+const signup = async (payload: SignupFormInterface) => {
     const url = `${baseUrl}/api/auth/signup`;
-    const payload = { userId, password, repassword, userName, userStudNum }
     const { data, status } = await axios.post(url, payload);
     return { data, status }
 }
 
-const login = async (userId: string, password: string) => {
+const login = async (payload: LoginFormInterface) => {
     const url = `${baseUrl}/api/auth/login`;
-    const payload = { userId, password }
     const { data } = await axios.post(url, payload)
     return data
 }

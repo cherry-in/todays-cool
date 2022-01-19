@@ -29,8 +29,7 @@ const LoginForm = () => {
         onSubmit={async (values, { setSubmitting, resetForm }) => {
           try {
             setError("");
-            const { userId, password } = values;
-            const result = await login(userId, password);
+            const result = await login(values);
             if (result) {
               setSuccess(true);
             }
@@ -48,7 +47,6 @@ const LoginForm = () => {
             <div className="mb-3">
               <input
                 type="text"
-                name="userId"
                 className={`form-control shadow-none rounded-0 ${styles.textInput}`}
                 placeholder="아이디"
                 autoComplete="nope"
@@ -63,7 +61,6 @@ const LoginForm = () => {
             <div className="mb-3">
               <input
                 type="password"
-                name="password"
                 className={`form-control shadow-none rounded-0 ${styles.textInput}`}
                 placeholder="비밀번호"
                 {...formik.getFieldProps("password")}

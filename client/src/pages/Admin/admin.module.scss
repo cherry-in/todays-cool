@@ -1,0 +1,16 @@
+.status {
+    top: 5px;
+    right: 3px;
+
+    & .cursor {
+        cursor: pointer;
+
+        &:hover {
+            color: crimson;
+        }
+    }
+}
+
+.body {
+    padding-top: 4em;
+}
