@@ -5,7 +5,7 @@ import { KUInterface } from "../models/ku.model/types";
 
 const { Op } = sequelize
 
-const findbyId:RequestHandler = async (req, res, next) => {
+const findbyId: RequestHandler = async (req, res, next) => {
     try {
         const id = req.body.scheduleId
         const userId = req.body.userId
@@ -41,7 +41,7 @@ const findbyId:RequestHandler = async (req, res, next) => {
     }
 }
 
-const findbyDate:RequestHandler = async (req, res, next) => {
+const findbyDate: RequestHandler = async (req, res, next) => {
     try {
         if (req.body.date || req.body.month) {
             let date = null
@@ -73,7 +73,7 @@ const findbyDate:RequestHandler = async (req, res, next) => {
                             ]
                         }, order: [['updatedAt', 'DESC']]
                     })
-                    findKUList.forEach((schedule:KUInterface,i:number) => {
+                    findKUList.forEach((schedule: KUInterface, i: number) => {
                         schedule.dataValues.start = dateToString(schedule.dataValues.start, "twoYear")
                         schedule.dataValues.end = dateToString(schedule.dataValues.end, "twoYear")
                     })
@@ -114,13 +114,13 @@ const findbyDate:RequestHandler = async (req, res, next) => {
                         [Op.or]: [
                             {
                                 [Op.and]: [
-                                    sequelize.where(sequelize.fn('date_part', 'year', sequelize.col('start')), year),
-                                    sequelize.where(sequelize.fn('date_part', 'month', sequelize.col('start')), month)
+                                    sequelize.where(sequelize.fn('date_part', 'year', sequelize.col('start')), `${year}`),
+                                    sequelize.where(sequelize.fn('date_part', 'month', sequelize.col('start')), `${month}`)
                                 ]
                             }, {
                                 [Op.and]: [
-                                    sequelize.where(sequelize.fn('date_part', 'year', sequelize.col('end')), year),
-                                    sequelize.where(sequelize.fn('date_part', 'month', sequelize.col('end')), month)
+                                    sequelize.where(sequelize.fn('date_part', 'year', sequelize.col('end')), `${year}`),
+                                    sequelize.where(sequelize.fn('date_part', 'month', sequelize.col('end')), `${month}`)
                                 ]
                             }
                         ]
@@ -142,13 +142,13 @@ const findbyDate:RequestHandler = async (req, res, next) => {
                             [Op.or]: [
                                 {
                                     [Op.and]: [
-                                        sequelize.where(sequelize.fn('date_part', 'year', sequelize.col('start')), year),
-                                        sequelize.where(sequelize.fn('date_part', 'month', sequelize.col('start')), month)
+                                        sequelize.where(sequelize.fn('date_part', 'year', sequelize.col('start')), `${year}`),
+                                        sequelize.where(sequelize.fn('date_part', 'month', sequelize.col('start')), `${month}`)
                                     ]
                                 }, {
                                     [Op.and]: [
-                                        sequelize.where(sequelize.fn('date_part', 'year', sequelize.col('end')), year),
-                                        sequelize.where(sequelize.fn('date_part', 'month', sequelize.col('end')), month)
+                                        sequelize.where(sequelize.fn('date_part', 'year', sequelize.col('end')), `${year}`),
+                                        sequelize.where(sequelize.fn('date_part', 'month', sequelize.col('end')), `${month}`)
                                     ]
                                 }
                             ]
@@ -173,7 +173,7 @@ const findbyDate:RequestHandler = async (req, res, next) => {
     }
 }
 
-const create:RequestHandler = async (req, res) => {
+const create: RequestHandler = async (req, res) => {
     try {
         let newSchedule = null
         let start = null
@@ -203,7 +203,7 @@ const create:RequestHandler = async (req, res) => {
     }
 }
 
-const edit:RequestHandler = async (req, res) => {
+const edit: RequestHandler = async (req, res) => {
     try {
         let updated = null
         let start = null
@@ -236,7 +236,7 @@ const edit:RequestHandler = async (req, res) => {
     }
 }
 
-const remove:RequestHandler = async (req, res) => {
+const remove: RequestHandler = async (req, res) => {
     try {
         let deleted = null
         const userId = req.body.userId
@@ -250,7 +250,7 @@ const remove:RequestHandler = async (req, res) => {
     }
 }
 
-const getParams:RequestHandler = async (req, res, next) => {
+const getParams: RequestHandler = async (req, res, next) => {
     try {
         const { userId } = req.params
         req.body.userId = userId
@@ -260,7 +260,7 @@ const getParams:RequestHandler = async (req, res, next) => {
     }
 }
 
-const querySeparation:RequestHandler = async (req, res, next) => {
+const querySeparation: RequestHandler = async (req, res, next) => {
     try {
         const { scheduleId, date, dateMonth } = req.query
         req.body.scheduleId = scheduleId
@@ -272,7 +272,7 @@ const querySeparation:RequestHandler = async (req, res, next) => {
     }
 }
 
-const send:RequestHandler = async (req, res) => {
+const send: RequestHandler = async (req, res) => {
     try {
         const result = req.body.schedule || req.body.scheduleList
         return res.json(result)
@@ -281,7 +281,7 @@ const send:RequestHandler = async (req, res) => {
     }
 }
 
-export function dateToString(dateObj:Date, method:string) {
+export function dateToString(dateObj: Date, method: string) {
     const year = dateObj.getFullYear()
     const year_disit = String(year).substring(2, 4)
     const month = dateObj.getMonth() + 1
