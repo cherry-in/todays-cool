@@ -1,12 +1,14 @@
-import { KU, Schedule } from "../db/index.js";
+import { KU, Schedule } from "../db";
 import sequelize from 'sequelize';
+import { RequestHandler } from "express";
+import { KUInterface } from "../models/ku.model/types";
 
 const { Op } = sequelize
 
-const findbyId = async (req, res, next) => {
+const findbyId: RequestHandler = async (req, res, next) => {
     try {
-        const id = req.scheduleId
-        const userId = req.userId
+        const id = req.body.scheduleId
+        const userId = req.body.userId
         let findSchedule = null
         let startDate = null
         let endDate = null
@@ -18,7 +20,7 @@ const findbyId = async (req, res, next) => {
                     const { id, title, start, end, memo } = findSchedule
                     startDate = dateToString(start, "full")
                     endDate = dateToString(end, "full")
-                    req.schedule = { id, title, startDate: startDate, endDate: endDate, memo }
+                    req.body.schedule = { id, title, startDate: startDate, endDate: endDate, memo }
                 }
             } else {
                 findSchedule = await Schedule.findOne({ where: { [Op.and]: [{ id: id }, { userId: userId }] } })
@@ -29,33 +31,33 @@ const findbyId = async (req, res, next) => {
                     endDate = dateToString(end, "full")
                     const startTime = dateToString(start, "time")
                     const endTime = dateToString(end, "time")
-                    req.schedule = { id, title, startDate, endDate, startTime, endTime, allDay: allDay ? "on" : "off", location, memo }
+                    req.body.schedule = { id, title, startDate, endDate, startTime, endTime, allDay: allDay ? "on" : "off", location, memo }
                 }
             }
             next()
         } else next()
-    } catch (error) {
+    } catch (error: any) {
         return res.status(500).send(error.message || "일정 가져오는 중 에러 발생")
     }
 }
 
-const findbyDate = async (req, res, next) => {
+const findbyDate: RequestHandler = async (req, res, next) => {
     try {
-        if (req.date || req.month) {
-            let date = ""
+        if (req.body.date || req.body.month) {
+            let date = null
             let startDate = null
             let endDate = null
             let findList = null
             let findKUList = null
             let findIndividualList = null
-            if (req.date) {
+            if (req.body.date) {
                 // 날짜 기준
-                date = new Date(req.date)
-                startDate = new Date(req.date)
+                date = new Date(req.body.date)
+                startDate = new Date(req.body.date)
                 startDate.setHours(24, 0, 0, 0)
-                endDate = new Date(req.date)
+                endDate = new Date(req.body.date)
                 endDate.setHours(0, 0, 0, 0)
-                if (req.userId === "ku") {
+                if (req.body.userId === "ku") {
                     findKUList = await KU.findAll({
                         where: {
                             [Op.and]: [
@@ -71,7 +73,7 @@ const findbyDate = async (req, res, next) => {
                             ]
                         }, order: [['updatedAt', 'DESC']]
                     })
-                    findKUList.forEach(schedule => {
+                    findKUList.forEach((schedule: KUInterface, i: number) => {
                         schedule.dataValues.start = dateToString(schedule.dataValues.start, "twoYear")
                         schedule.dataValues.end = dateToString(schedule.dataValues.end, "twoYear")
                     })
@@ -104,7 +106,7 @@ const findbyDate = async (req, res, next) => {
                 }
             } else {
                 // 달 기준
-                date = new Date(req.month)
+                date = new Date(req.body.month)
                 const year = dateToString(date, "year")
                 const month = dateToString(date, "month")
                 findKUList = await KU.findAll({
@@ -112,18 +114,18 @@ const findbyDate = async (req, res, next) => {
                         [Op.or]: [
                             {
                                 [Op.and]: [
-                                    sequelize.where(sequelize.fn('date_part', 'year', sequelize.col('start')), year),
-                                    sequelize.where(sequelize.fn('date_part', 'month', sequelize.col('start')), month)
+                                    sequelize.where(sequelize.fn('date_part', 'year', sequelize.col('start')), `${year}`),
+                                    sequelize.where(sequelize.fn('date_part', 'month', sequelize.col('start')), `${month}`)
                                 ]
                             }, {
                                 [Op.and]: [
-                                    sequelize.where(sequelize.fn('date_part', 'year', sequelize.col('end')), year),
-                                    sequelize.where(sequelize.fn('date_part', 'month', sequelize.col('end')), month)
+                                    sequelize.where(sequelize.fn('date_part', 'year', sequelize.col('end')), `${year}`),
+                                    sequelize.where(sequelize.fn('date_part', 'month', sequelize.col('end')), `${month}`)
                                 ]
                             }
                         ]
                     }, attributes: ['id', 'title', 'start', 'end']
-                    , order: [['start']]
+                    , order: ['start']
                 })
                 findKUList.forEach(schedule => {
                     schedule.dataValues.end.setDate(schedule.dataValues.end.getDate() + 1)
@@ -132,7 +134,7 @@ const findbyDate = async (req, res, next) => {
                     schedule.dataValues.allDay = true
                     schedule.dataValues.className = ['text', 'first']
                 })
-                if (req.userId === "ku") {
+                if (req.body.userId === "ku") {
                     findList = findKUList
                 } else {
                     findIndividualList = await Schedule.findAll({
@@ -140,18 +142,18 @@ const findbyDate = async (req, res, next) => {
                             [Op.or]: [
                                 {
                                     [Op.and]: [
-                                        sequelize.where(sequelize.fn('date_part', 'year', sequelize.col('start')), year),
-                                        sequelize.where(sequelize.fn('date_part', 'month', sequelize.col('start')), month)
+                                        sequelize.where(sequelize.fn('date_part', 'year', sequelize.col('start')), `${year}`),
+                                        sequelize.where(sequelize.fn('date_part', 'month', sequelize.col('start')), `${month}`)
                                     ]
                                 }, {
                                     [Op.and]: [
-                                        sequelize.where(sequelize.fn('date_part', 'year', sequelize.col('end')), year),
-                                        sequelize.where(sequelize.fn('date_part', 'month', sequelize.col('end')), month)
+                                        sequelize.where(sequelize.fn('date_part', 'year', sequelize.col('end')), `${year}`),
+                                        sequelize.where(sequelize.fn('date_part', 'month', sequelize.col('end')), `${month}`)
                                     ]
                                 }
                             ]
                         }, attributes: ['id', 'title', 'start', 'end']
-                        , order: [['start']]
+                        , order: ['start']
                     })
                     findIndividualList.forEach(schedule => {
                         schedule.dataValues.end.setDate(schedule.dataValues.end.getDate() + 1)
@@ -163,21 +165,21 @@ const findbyDate = async (req, res, next) => {
                     findList = { KU: findKUList, individual: findIndividualList }
                 }
             }
-            req.scheduleList = findList
+            req.body.scheduleList = findList
             next()
         } else next()
-    } catch (error) {
+    } catch (error: any) {
         return res.status(500).send(error.message || "일정 가져오는 중 에러 발생")
     }
 }
 
-const create = async (req, res) => {
+const create: RequestHandler = async (req, res) => {
     try {
         let newSchedule = null
         let start = null
         let end = null
         let allDay_v = false
-        const userId = req.userId
+        const userId = req.body.userId
         if (userId === "ku") {
             const { title, startDate, endDate, memo } = req.body
             start = new Date(startDate)
@@ -196,18 +198,18 @@ const create = async (req, res) => {
             newSchedule = await Schedule.create({ title: title, start: start, end: end, allDay: allDay_v, location: location, memo: memo, userId: userId })
         }
         return res.json(newSchedule)
-    } catch (error) {
+    } catch (error: any) {
         return res.status(500).send(error.message || "일정 등록 중 에러 발생")
     }
 }
 
-const edit = async (req, res) => {
+const edit: RequestHandler = async (req, res) => {
     try {
         let updated = null
         let start = null
         let end = null
         let allDay_v = false
-        const userId = req.userId
+        const userId = req.body.userId
         const { scheduleId } = req.query
         if (userId === "ku") {
             const { title, startDate, endDate, memo } = req.body
@@ -229,57 +231,57 @@ const edit = async (req, res) => {
         }
         if (!updated) throw new Error("해당 일정의 일부 정보를 수정하는데 실패하였습니다.")
         else return res.send(200)
-    } catch (error) {
+    } catch (error: any) {
         return res.status(500).send(error.message || "일정 수정 중 에러 발생")
     }
 }
 
-const remove = async (req, res) => {
+const remove: RequestHandler = async (req, res) => {
     try {
         let deleted = null
-        const userId = req.userId
+        const userId = req.body.userId
         const { scheduleId } = req.query
         if (userId === "ku") deleted = await KU.destroy({ where: { id: scheduleId } })
         else deleted = await Schedule.destroy({ where: { [Op.and]: [{ id: scheduleId }, { userId: userId }] } })
         if (!deleted) throw new Error("해당 일정을 삭제하는데 실패하였습니다.")
         else return res.send(200)
-    } catch (error) {
+    } catch (error: any) {
         return res.status(500).send(error.message || "일정 삭제 중 에러 발생")
     }
 }
 
-const getParams = async (req, res, next) => {
+const getParams: RequestHandler = async (req, res, next) => {
     try {
         const { userId } = req.params
-        req.userId = userId
+        req.body.userId = userId
         next()
-    } catch (error) {
+    } catch (error: any) {
         return res.status(500).send(error.message || "일정 가져오는 중 에러 발생")
     }
 }
 
-const querySeparation = async (req, res, next) => {
+const querySeparation: RequestHandler = async (req, res, next) => {
     try {
         const { scheduleId, date, dateMonth } = req.query
-        req.scheduleId = scheduleId
-        req.date = date
-        req.month = dateMonth
+        req.body.scheduleId = scheduleId
+        req.body.date = date
+        req.body.month = dateMonth
         next()
-    } catch (error) {
+    } catch (error: any) {
         return res.status(500).send(error.message || "일정 가져오는 중 에러 발생")
     }
 }
 
-const send = async (req, res) => {
+const send: RequestHandler = async (req, res) => {
     try {
-        const result = req.schedule || req.scheduleList
+        const result = req.body.schedule || req.body.scheduleList
         return res.json(result)
-    } catch (error) {
+    } catch (error: any) {
         return res.status(500).send(error.message || "일정 가져오는 중 에러 발생")
     }
 }
 
-export function dateToString(dateObj, method) {
+export function dateToString(dateObj: Date, method: string) {
     const year = dateObj.getFullYear()
     const year_disit = String(year).substring(2, 4)
     const month = dateObj.getMonth() + 1

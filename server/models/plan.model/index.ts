@@ -1,9 +1,8 @@
-import Sequelize from "sequelize";
+import {DataTypes, Sequelize} from "sequelize";
+import { PlanInterface } from "./types";
 
-const { DataTypes } = Sequelize;
-
-const PlanModel = (sequelize) => {
-  const Plan = sequelize.define(
+const PlanModel = (sequelize:Sequelize) => {
+  const Plan = sequelize.define<PlanInterface>(
     "plan",
     {
       id: {
@@ -30,6 +29,9 @@ const PlanModel = (sequelize) => {
       checked: {
         type: DataTypes.BOOLEAN,
         defaultValue: false
+      },
+      subjectId: {
+        type: DataTypes.NUMBER,
       }
     },
     {

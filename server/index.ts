@@ -1,7 +1,7 @@
 import dotenv from "dotenv"
-import app from "./app.js"
-import appConfig from "./config/app.config.js"
-import { sequelize, User } from "./db/index.js"
+import app from "./app"
+import appConfig from "./config/app.config"
+import { sequelize, User } from "./db/index"
 
 dotenv.config({
     path: `${process.env.NODE_ENV === "production" ? ".env" : ".env.development"
@@ -28,5 +28,3 @@ sequelize
     .catch((err:any) => {
         console.log(err);
     });
-
-export default {}

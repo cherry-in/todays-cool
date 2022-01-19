@@ -1,4 +1,6 @@
-const config = {
+import { Options } from "sequelize/dist";
+
+const config: Options = {
   host: "localhost",
   username: process.env.PG_USER || "kuku",
   password: process.env.PG_PASSWORD || "kuku0725",

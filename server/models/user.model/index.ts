@@ -1,10 +1,9 @@
 import bcrypt from "bcryptjs";
-import Sequelize from "sequelize";
+import {DataTypes, Sequelize} from "sequelize";
+import { ROLE_NAME, UserInterface } from "./types";
 
-const { DataTypes } = Sequelize;
-
-const UserModel = (sequelize) => {
-  const User = sequelize.define(
+const UserModel = (sequelize:Sequelize) => {
+  const User = sequelize.define<UserInterface>(
     "user",
     {
       id: {
@@ -25,7 +24,10 @@ const UserModel = (sequelize) => {
         type: DataTypes.STRING
       },
       role: {
-        type: DataTypes.STRING
+        type: DataTypes.ENUM({
+            values:Object.values(ROLE_NAME),
+        }),
+        defaultValue:ROLE_NAME.USER,
       }
     },
     {
@@ -53,7 +55,7 @@ const UserModel = (sequelize) => {
     }
   });
 
-  User.prototype.comparePassword = async function (plainPassword) {
+  User.prototype.comparePassword = async function (plainPassword:string) {
     const passwordMatch = await bcrypt.compare(
       plainPassword,
       this.password

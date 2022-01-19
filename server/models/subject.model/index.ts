@@ -1,13 +1,12 @@
-import Sequelize from "sequelize";
+import { DataTypes, Sequelize } from "sequelize";
+import { SubjectInterface } from "./types";
 
-const { DataTypes } = Sequelize;
-
-const SubjectModel = (sequelize) => {
-  const Subject = sequelize.define(
+const SubjectModel = (sequelize: Sequelize) => {
+  const Subject = sequelize.define<SubjectInterface>(
     "subject",
     {
       id: {
-        type: DataTypes.UUID, 
+        type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true
       },
@@ -22,6 +21,9 @@ const SubjectModel = (sequelize) => {
       room: {
         type: DataTypes.STRING,
         defaultValue: ""
+      },
+      userId: {
+        type: DataTypes.NUMBER
       }
     },
     {

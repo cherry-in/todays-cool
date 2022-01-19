@@ -1,10 +1,9 @@
-import Sequelize from "sequelize";
+import { DataTypes, Sequelize } from "sequelize";
+import { ScheduleInterface } from "./types";
 
-const { DataTypes } = Sequelize;
-
-const KUModel = (sequelize) => {
-    const KU = sequelize.define(
-        "ku",
+const ScheduleModel = (sequelize: Sequelize) => {
+    const Schedule = sequelize.define<ScheduleInterface>(
+        "schedule",
         {
             id: {
                 type: DataTypes.UUID,
@@ -22,18 +21,27 @@ const KUModel = (sequelize) => {
             end: {
                 type: DataTypes.DATE
             },
+            allDay: {
+                type: DataTypes.BOOLEAN,
+            },
+            location: {
+                type: DataTypes.STRING,
+                defaultValue: ""
+            },
             memo: {
                 type: DataTypes.TEXT,
                 defaultValue: ""
+            },
+            userId: {
+                type: DataTypes.NUMBER
             }
         },
         {
             timestamps: true,
-            freezeTableName: true
         }
     )
 
-    return KU
+    return Schedule
 }
 
-export default KUModel
+export default ScheduleModel
