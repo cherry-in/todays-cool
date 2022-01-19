@@ -1,5 +1,5 @@
 import dotenv from "dotenv"
-import app from "./app.js"
+import app from "./app"
 import appConfig from "./config/app.config"
 import { sequelize, User } from "./db/index"
 
@@ -28,5 +28,3 @@ sequelize
     .catch((err:any) => {
         console.log(err);
     });
-
-export default {}
